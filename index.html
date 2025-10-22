@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Gateway Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>API Gateway Dashboard</h1>
+      <p>View and manage your API endpoints</p>
+    </header>
+
+    <div class="auth-section">
+      <div class="input-group">
+        <label for="authMethod">Authentication Method:</label>
+        <select id="authMethod">
+          <option value="jwt">JWT Token</option>
+          <option value="apikey">API Key</option>
+        </select>
+      </div>
+
+      <div class="input-group" id="jwtGroup">
+        <label for="jwtToken">JWT Token:</label>
+        <input type="text" id="jwtToken" placeholder="Bearer token...">
+      </div>
+
+      <div class="input-group" id="apikeyGroup" style="display: none;">
+        <label for="apiKey">API Key:</label>
+        <input type="text" id="apiKey" placeholder="sk_...">
+      </div>
+
+      <div class="input-group">
+        <label for="baseUrl">Base URL:</label>
+        <input type="text" id="baseUrl" value="http://localhost:8000" placeholder="http://localhost:8000">
+      </div>
+    </div>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="vehicles">Vehicle Positions</button>
+      <button class="tab-btn" data-tab="keys">API Keys</button>
+      <button class="tab-btn" data-tab="health">Health Check</button>
+    </nav>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="vehicles-tab">
+        <div class="endpoint-section">
+          <h2>Vehicle Positions</h2>
+          <div class="input-group">
+            <label for="vehicleUid">Vehicle UID:</label>
+            <input type="text" id="vehicleUid" placeholder="Enter vehicle UID">
+          </div>
+          <button class="btn btn-primary" onclick="fetchVehiclePositions()">Fetch Positions</button>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="keys-tab">
+        <div class="endpoint-section">
+          <h2>API Key Management</h2>
+
+          <div class="key-actions">
+            <div class="action-card">
+              <h3>Create API Key</h3>
+              <div class="input-group">
+                <label for="keyName">Key Name:</label>
+                <input type="text" id="keyName" placeholder="My API Key">
+              </div>
+              <div class="input-group">
+                <label for="rateLimit">Rate Limit (requests/min):</label>
+                <input type="number" id="rateLimit" value="100">
+              </div>
+              <button class="btn btn-primary" onclick="createApiKey()">Create Key</button>
+            </div>
+
+            <div class="action-card">
+              <h3>List API Keys</h3>
+              <button class="btn btn-secondary" onclick="listApiKeys()">View Keys</button>
+            </div>
+
+            <div class="action-card">
+              <h3>Revoke API Key</h3>
+              <div class="input-group">
+                <label for="keyIdToRevoke">Key ID:</label>
+                <input type="text" id="keyIdToRevoke" placeholder="Enter key ID">
+              </div>
+              <button class="btn btn-danger" onclick="revokeApiKey()">Revoke Key</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="health-tab">
+        <div class="endpoint-section">
+          <h2>Health Check</h2>
+          <button class="btn btn-secondary" onclick="checkHealth()">Check Health</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="response-section">
+      <div class="response-header">
+        <h2>Response</h2>
+        <div class="response-meta">
+          <span id="statusCode" class="status-badge"></span>
+          <span id="responseTime" class="time-badge"></span>
+        </div>
+      </div>
+      <div class="response-body">
+        <pre id="responseOutput">No response yet. Make a request to see the output.</pre>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
